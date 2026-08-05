@@ -110,9 +110,9 @@ export default function ChatClient({ initialContextData }: { initialContextData:
   ]
 
   return (
-    <div className="flex flex-col w-full h-[100dvh] font-sans">
+    <div className="flex flex-col w-full h-[100dvh] font-sans bg-white/40 lg:bg-transparent">
       <MobileHeader title="Konselor AI" />
-      <div className="flex-1 flex flex-col lg:flex-row w-full max-w-6xl mx-auto p-3 lg:p-6 min-h-0 lg:gap-6">
+      <div className="flex-1 flex flex-col lg:flex-row w-full max-w-6xl mx-auto p-0 lg:p-6 min-h-0 lg:gap-6">
         
         {/* Left Side: Introduction Sidebar (Desktop only) */}
         <div className="hidden lg:flex w-[320px] shrink-0 flex-col justify-center relative h-full pr-6">
@@ -219,7 +219,7 @@ export default function ChatClient({ initialContextData }: { initialContextData:
             <p className="text-[15px] text-slate-500 font-medium">Tanyakan apa saja seputar masa depanmu, AI kami siap membantu 24/7.</p>
           </div>
 
-          <div className="bg-white/60 backdrop-blur-xl border border-white flex-1 rounded-3xl lg:rounded-[2rem] overflow-hidden flex flex-col shadow-xl shadow-slate-200/50 relative">
+          <div className="bg-white lg:bg-white/60 lg:backdrop-blur-xl border-t border-slate-100 lg:border-white flex-1 rounded-none lg:rounded-[2rem] overflow-hidden flex flex-col lg:shadow-xl lg:shadow-slate-200/50 relative">
         
         {/* Messages Area */}
         <div className="flex-1 overflow-y-auto p-4 lg:p-8 space-y-6 lg:space-y-8 pb-8">

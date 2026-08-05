@@ -221,8 +221,8 @@ export default function CVBuilderClient({ initialData, userId }: { initialData: 
         </div>
       </div>
 
-      {/* Right: PDF Preview */}
-      <div className="w-full md:w-1/2 h-[50vh] md:h-full bg-zinc-100 dark:bg-zinc-900 p-6 md:p-10 flex flex-col">
+      {/* Right: PDF Preview (Hidden on Mobile) */}
+      <div className="hidden md:flex w-1/2 h-full bg-zinc-100 dark:bg-zinc-900 p-6 md:p-10 flex-col">
         <h2 className="font-semibold text-zinc-500 dark:text-zinc-400 mb-4 flex items-center justify-between">
           <span>Live Preview</span>
         </h2>
