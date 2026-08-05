@@ -281,7 +281,7 @@ export default function Home() {
                 <Player
                   autoplay
                   loop
-                  src="/01_Finishig%20Studies.json"
+                  src="/finishing_studies.json"
                   style={{ height: '100%', width: '100%' }}
                   background="transparent"
                 />
