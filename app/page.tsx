@@ -100,7 +100,7 @@ export default function Home() {
             <Player
               autoplay
               loop
-              src="/happy%20student.json"
+              src="/happy_student.json"
               style={{ height: '100%', width: '100%' }}
               background="transparent"
             />
