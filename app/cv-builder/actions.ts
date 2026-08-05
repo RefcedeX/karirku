@@ -18,10 +18,11 @@ export async function upsertCV(userId: string, cvData: any) {
       email: cvData.email,
       phone: cvData.phone,
       address: cvData.address,
+      website: cvData.website,
       summary: cvData.summary,
       skills: cvData.skills,
-      education: cvData.education,
-      experience: cvData.experience
+      education: JSON.stringify(cvData.education),
+      experience: JSON.stringify(cvData.experience)
     }, { onConflict: 'user_id' })
 
   if (error) {

@@ -20,9 +20,9 @@ export default async function AdminDashboard() {
     redirect('/dashboard') // Siswa diarahkan ke dashboard mereka
   }
 
-  const [{ count: totalStudents }, { count: totalAttempts }, { count: totalCVs }, { data: studentsData }] = await Promise.all([
-    supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'siswa'),
-    supabase.from('quiz_attempts').select('*', { count: 'exact', head: true }),
+  const [{ count: totalStudents }, { data: attempts }, { count: totalCVs }, { data: studentsData }] = await Promise.all([
+    supabase.from('profiles').select('*', { count: 'exact', head: true }),
+    supabase.from('quiz_attempts').select('user_id'),
     supabase.from('cv_data').select('*', { count: 'exact', head: true }),
     supabase.from('profiles').select(`
       id,
@@ -57,6 +57,9 @@ export default async function AdminDashboard() {
     }
   })
 
+  // Calculate unique students who have completed the test
+  const uniqueStudentsWithTest = new Set((attempts || []).map(a => a.user_id)).size;
+
   return (
     <div className="flex-1 flex flex-col max-w-6xl mx-auto w-full p-6 pt-12 animate-in fade-in">
       <h1 className="text-3xl font-bold mb-8">Dashboard Guru BK</h1>
@@ -64,9 +67,9 @@ export default async function AdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {[
           { title: 'Total Siswa', value: totalStudents || 0, icon: Users, color: 'text-blue-500', bg: 'bg-blue-500/10' },
-          { title: 'Kuis Selesai', value: totalAttempts || 0, icon: FileText, color: 'text-green-500', bg: 'bg-green-500/10' },
+          { title: 'Kuis Selesai', value: uniqueStudentsWithTest, icon: FileText, color: 'text-green-500', bg: 'bg-green-500/10' },
           { title: 'CV Dibuat', value: totalCVs || 0, icon: BarChart, color: 'text-purple-500', bg: 'bg-purple-500/10' },
-          { title: 'Mode Kurikulum', value: 'Mapel Pilihan', icon: Settings, color: 'text-orange-500', bg: 'bg-orange-500/10' },
+          { title: 'Mode Kurikulum', value: 'Mapel Pilihan', icon: Settings, color: 'text-blue-700', bg: 'bg-blue-700/10' },
         ].map((stat, i) => (
           <div key={i} className="bg-card border border-border rounded-3xl p-6 flex items-center gap-4">
             <div className={`p-4 rounded-2xl ${stat.bg} ${stat.color}`}>

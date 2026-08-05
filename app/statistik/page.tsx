@@ -1,60 +1,41 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
-import { ArrowRight, Users, CheckCircle2, TrendingUp, Award, Sparkles, Menu } from 'lucide-react'
-import { MobileNav } from '@/components/ui/MobileNav'
+import { ArrowRight, Users, CheckCircle2, TrendingUp, Award, Sparkles } from 'lucide-react'
+import { PublicHeader } from '@/components/layout/PublicHeader'
+
+export const dynamic = 'force-dynamic'
 
 export default async function StatistikPage() {
   const supabase = await createClient()
 
   // Query data real dari database
-  const [{ count: totalStudents }, { count: totalAttempts }] = await Promise.all([
-    supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'siswa'),
-    supabase.from('quiz_attempts').select('*', { count: 'exact', head: true }),
+  const [{ count: totalStudents }, { data: attempts }] = await Promise.all([
+    supabase.from('profiles').select('*', { count: 'exact', head: true }),
+    supabase.from('quiz_attempts').select('user_id'),
   ])
+
+  // Dapatkan jumlah unik siswa yang menyelesaikan tes
+  const uniqueStudentsWithTest = new Set((attempts || []).map(a => a.user_id)).size;
 
   // Hitung persentase penyelesaian
   const completionRate = totalStudents && totalStudents > 0 
-    ? Math.round(((totalAttempts || 0) / totalStudents) * 100) 
+    ? Math.round((uniqueStudentsWithTest / totalStudents) * 100) 
     : 0
 
   return (
     <div className="flex flex-col min-h-screen bg-[#fffcf5] text-slate-800 overflow-hidden font-sans">
       
       {/* Header */}
-      <header className="flex items-center justify-between p-6 w-full max-w-7xl mx-auto z-10 relative">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="font-bold text-2xl tracking-tight text-orange-600 flex items-center gap-1 hover:opacity-80 transition-opacity">
-            KarirKu<span className="text-yellow-400">✧</span>
-          </Link>
-        </div>
-
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-          <Link href="/" className="hover:text-orange-500 transition-colors pb-1">Beranda</Link>
-          <Link href="/statistik" className="text-orange-500 font-semibold border-b-2 border-orange-500 pb-1">Statistik</Link>
-          <Link href="/faq" className="hover:text-orange-500 transition-colors pb-1">Tentang & FAQ</Link>
-        </nav>
-
-        <div className="flex items-center gap-4">
-          <Link 
-            href="/login"
-            className="hidden md:flex items-center gap-2 text-sm font-semibold bg-orange-100 text-orange-700 hover:bg-orange-200 px-5 py-2.5 rounded-full transition-colors"
-          >
-            Masuk <ArrowRight size={16} />
-          </Link>
-          
-          <MobileNav />
-        </div>
-      </header>
+      <PublicHeader activePage="statistik" />
 
       {/* Main Content */}
       <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 lg:py-20 relative">
         {/* Background Decorative */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-200/30 rounded-full blur-3xl -z-10"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl -z-10"></div>
         <div className="absolute bottom-0 left-10 w-72 h-72 bg-purple-200/40 rounded-full blur-3xl -z-10"></div>
 
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-100 text-orange-700 font-semibold text-sm mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100 text-blue-900 font-semibold text-sm mb-6">
             DATA REAL-TIME
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 mb-6 leading-tight">
@@ -69,8 +50,8 @@ export default async function StatistikPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
           {/* Card 1 */}
           <div className="bg-white rounded-[2rem] p-8 shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col items-center text-center hover:-translate-y-1 transition-transform">
-            <div className="w-16 h-16 rounded-2xl bg-orange-50 flex items-center justify-center mb-6">
-              <Users className="text-orange-500" size={32} />
+            <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center mb-6">
+              <Users className="text-blue-700" size={32} />
             </div>
             <h3 className="text-4xl font-black text-slate-800 mb-2">{totalStudents || 0}</h3>
             <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Siswa Terdaftar</p>
@@ -81,7 +62,7 @@ export default async function StatistikPage() {
             <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mb-6">
               <CheckCircle2 className="text-green-500" size={32} />
             </div>
-            <h3 className="text-4xl font-black text-slate-800 mb-2">{totalAttempts || 0}</h3>
+            <h3 className="text-4xl font-black text-slate-800 mb-2">{uniqueStudentsWithTest}</h3>
             <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Tes Diselesaikan</p>
           </div>
 
@@ -97,7 +78,7 @@ export default async function StatistikPage() {
 
         {/* CTA */}
         <div className="mt-24 text-center">
-          <div className="bg-gradient-to-r from-orange-400 to-rose-400 rounded-[3rem] p-10 md:p-16 relative overflow-hidden shadow-2xl shadow-orange-500/20 max-w-4xl mx-auto">
+          <div className="bg-gradient-to-r from-pink-400 to-pink-500 rounded-[3rem] p-10 md:p-16 relative overflow-hidden shadow-2xl shadow-pink-500/20 max-w-4xl mx-auto">
             <div className="absolute inset-0 bg-white opacity-10 mix-blend-overlay"></div>
             <div className="relative z-10 text-white">
               <h2 className="text-3xl md:text-4xl font-extrabold mb-4 flex items-center justify-center gap-2">
@@ -108,7 +89,7 @@ export default async function StatistikPage() {
               </p>
               <Link 
                 href="/register"
-                className="inline-flex items-center justify-center gap-2 bg-white text-orange-600 px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transition-all hover:-translate-y-1"
+                className="inline-flex items-center justify-center gap-2 bg-white text-pink-600 px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transition-all hover:-translate-y-1"
               >
                 Daftar Sekarang <ArrowRight size={20} />
               </Link>

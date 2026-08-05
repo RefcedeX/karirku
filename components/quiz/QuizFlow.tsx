@@ -3,20 +3,37 @@
 import { useEffect, useState } from 'react'
 import { useQuizStore } from '@/lib/store/quiz-store'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, Check, Loader2 } from 'lucide-react'
+import { ChevronLeft, Check, Loader2, Clock } from 'lucide-react'
+import dynamic from 'next/dynamic'
+
+const Player = dynamic(() => import('@lottiefiles/react-lottie-player').then(mod => mod.Player), { ssr: false })
 import { useRouter } from 'next/navigation'
 
 export function QuizFlow() {
   const router = useRouter()
   const { 
-    questions, answers, currentIndex, isFinished, 
-    setQuestions, answerQuestion, nextQuestion, prevQuestion, finishQuiz, resetQuiz 
+    questions, answers, currentIndex, isFinished, isStarted, startTime,
+    setQuestions, answerQuestion, nextQuestion, prevQuestion, finishQuiz, resetQuiz, startQuiz 
   } = useQuizStore()
   
   const [mounted, setMounted] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
+  const [timer, setTimer] = useState(0) // seconds elapsed
+  const [showConfirm, setShowConfirm] = useState(false)
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+    if (isStarted && !isFinished && startTime) {
+      interval = setInterval(() => {
+        setTimer(Math.floor((Date.now() - startTime) / 1000))
+      }, 1000)
+    }
+    return () => {
+      if (interval) clearInterval(interval)
+    }
+  }, [isStarted, isFinished, startTime])
 
   useEffect(() => {
     async function fetchQuestions() {
@@ -64,10 +81,13 @@ export function QuizFlow() {
           normalizedScores[dim] = Math.round(((rawScore - 7) / (35 - 7)) * 100)
         })
         
+        // Calculate total duration in seconds
+        const duration = startTime ? Math.floor((Date.now() - startTime) / 1000) : 0
+
         const res = await fetch('/api/ai/recommendation', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ scores: normalizedScores, rawAnswers: answers })
+          body: JSON.stringify({ scores: normalizedScores, rawAnswers: answers, duration })
         })
         
         const data = await res.json()
@@ -86,7 +106,7 @@ export function QuizFlow() {
 
   if (!mounted || isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] animate-in fade-in duration-700">
+      <div className="flex flex-col items-center justify-center min-h-[60vh] animate-in fade-in slide-in-from-bottom-4 duration-700">
         <Loader2 className="w-12 h-12 text-indigo-500 animate-spin mb-6" />
         <h3 className="text-xl font-bold text-slate-800 mb-2">AI Sedang Meracik Soal...</h3>
         <p className="text-slate-500 text-sm text-center max-w-sm">
@@ -105,9 +125,56 @@ export function QuizFlow() {
     )
   }
 
+  if (!isStarted) {
+    return (
+      <motion.div 
+        className="flex flex-col items-center justify-center w-full max-w-lg mx-auto text-center mt-[-2rem] md:mt-0"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+      >
+        <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 mb-2 flex items-center justify-center shrink-0">
+          <Player
+            autoplay
+            loop
+            src="/happy_student.json"
+            style={{ height: '100%', width: '100%' }}
+            background="transparent"
+          />
+        </div>
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="text-3xl font-extrabold text-slate-800 mb-4 tracking-tight"
+        >
+          Siap Memulai Kuis?
+        </motion.h2>
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="text-slate-600 mb-8 leading-relaxed text-base md:text-lg px-2"
+        >
+          Kuis ini berisi <strong>42 pernyataan</strong>. Tidak ada jawaban yang benar atau salah. 
+          Pilihlah jawaban yang paling jujur dan sesuai dengan kata hatimu.
+        </motion.p>
+        <motion.button 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          onClick={startQuiz}
+          className="w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:shadow-lg hover:shadow-blue-700/30 text-white font-bold text-lg py-4 px-8 rounded-full hover:-translate-y-1 transition-all"
+        >
+          Lanjutkan & Mulai Kuis
+        </motion.button>
+      </motion.div>
+    )
+  }
+
   if (isFinished) {
     return (
-      <div className="text-center py-20 animate-in fade-in zoom-in duration-500 flex flex-col items-center justify-center min-h-[60vh]">
+      <div className="text-center py-20 animate-in fade-in slide-in-from-bottom-8 duration-700 flex flex-col items-center justify-center min-h-[60vh]">
         <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
           <Check size={48} className="animate-pulse" />
         </div>
@@ -131,19 +198,17 @@ export function QuizFlow() {
     answerQuestion(currentQ.id, score)
     setTimeout(() => {
       if (currentIndex === questions.length - 1) {
-        if (window.confirm("Apakah kamu yakin ingin mengakhiri kuis dan melihat hasilnya?")) {
-          finishQuiz()
-        }
+        setShowConfirm(true)
       } else {
         nextQuestion()
       }
-    }, 200)
+    }, 50)
   }
 
   return (
     <div className="w-full flex flex-col max-w-2xl mx-auto pb-12">
       {/* Header & Progress */}
-      <div className="flex items-center gap-4 mb-10">
+      <div className="flex items-center gap-4 mb-6">
         <button 
           onClick={prevQuestion} 
           disabled={currentIndex === 0}
@@ -164,15 +229,56 @@ export function QuizFlow() {
         </span>
       </div>
 
+      {/* Timer */}
+      <div className="flex items-center justify-center gap-2 mb-10 bg-slate-100 text-slate-600 py-1.5 px-4 rounded-full w-fit mx-auto font-medium text-sm border border-slate-200 shadow-inner">
+        <Clock size={16} />
+        <span>{Math.floor(timer / 60).toString().padStart(2, '0')}:{(timer % 60).toString().padStart(2, '0')}</span>
+      </div>
+
       {/* Main Content Area (No fixed heights, natural flow) */}
       <div className="flex flex-col">
         <AnimatePresence mode="wait">
-          <motion.div
-            key={currentQ.id}
-            initial={{ x: 20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -20, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+          {showConfirm ? (
+            <motion.div
+              key="confirm"
+              initial={{ y: 15, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -15, opacity: 0 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className="flex flex-col items-center text-center pt-8"
+            >
+              <div className="w-20 h-20 bg-green-100 text-green-600 rounded-[2rem] flex items-center justify-center mb-6 shadow-sm">
+                <Check size={40} />
+              </div>
+              <h3 className="text-3xl md:text-4xl font-extrabold text-slate-800 mb-4">Semua Soal Terjawab!</h3>
+              <p className="text-slate-500 mb-10 text-lg">
+                Apakah kamu sudah yakin dengan semua pilihan jawabanmu?
+              </p>
+              <div className="flex flex-col gap-4 w-full max-w-md mx-auto">
+                <button 
+                  onClick={() => {
+                    setShowConfirm(false)
+                    finishQuiz()
+                  }}
+                  className="w-full py-4 px-8 rounded-full font-bold text-lg text-white bg-indigo-600 hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-600/20 hover:scale-105"
+                >
+                  Analisis Profil Sekarang
+                </button>
+                <button 
+                  onClick={() => setShowConfirm(false)}
+                  className="w-full py-4 px-8 rounded-full font-bold text-lg text-slate-500 bg-white border-2 border-slate-200 hover:bg-slate-50 hover:text-slate-700 transition-all"
+                >
+                  Cek Kembali Jawaban
+                </button>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key={currentQ.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
             className="flex flex-col"
           >
             {/* Pertanyaan */}
@@ -208,6 +314,7 @@ export function QuizFlow() {
               ))}
             </div>
           </motion.div>
+          )}
         </AnimatePresence>
       </div>
     </div>

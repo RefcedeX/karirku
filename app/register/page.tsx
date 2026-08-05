@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { 
   Loader2, Mail, Lock, Eye, EyeOff, User, Key,
   ArrowRight, Sparkles, Target, Gamepad2, 
-  FolderOpen, LineChart, Gift 
+  FolderOpen, LineChart, Gift, Rocket
 } from 'lucide-react'
 
 export default function RegisterPage() {
@@ -31,16 +31,16 @@ export default function RegisterPage() {
       <div className="w-full lg:w-1/2 min-h-[100dvh] lg:min-h-0 lg:h-full flex justify-center items-center lg:items-start py-10 lg:py-0 lg:pt-[8vh] px-6 lg:px-10 relative">
         
         {/* Dekorasi halus di sisi putih */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-50/50 rounded-full blur-3xl -z-10"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl -z-10"></div>
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-rose-50/50 rounded-full blur-3xl -z-10"></div>
 
         <div className="w-full max-w-sm lg:max-w-md relative z-10 w-full">
           <div className="mb-4 lg:mb-6">
-            <Link href="/" className="inline-flex items-center gap-1 font-extrabold text-xl lg:text-2xl text-orange-500 mb-2 lg:mb-4 hover:opacity-80 transition-opacity">
+            <Link href="/" className="inline-flex items-center gap-1 font-extrabold text-xl lg:text-2xl text-blue-700 mb-2 lg:mb-4 hover:opacity-80 transition-opacity">
               KarirKu<Sparkles className="w-4 h-4 lg:w-5 lg:h-5 text-yellow-400" />
             </Link>
-            <h1 className="text-2xl lg:text-3xl font-extrabold text-slate-900 mb-1 tracking-tight">
-              Daftar KarirKu 🚀
+            <h1 className="text-2xl lg:text-3xl font-extrabold text-slate-900 mb-1 lg:mb-2 tracking-tight flex items-center gap-2">
+              Daftar KarirKu <Rocket className="text-blue-600" size={28} />
             </h1>
             <p className="text-slate-500 text-sm font-medium">
               Buat akun untuk menyimpan hasil tesmu.
@@ -64,7 +64,7 @@ export default function RegisterPage() {
                   name="full_name" 
                   type="text" 
                   required
-                  className="w-full bg-white border border-slate-200 px-4 py-2.5 pl-10 rounded-xl outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm transition-all font-medium text-slate-700 shadow-sm" 
+                  className="w-full bg-white border border-slate-200 px-4 py-2.5 pl-10 rounded-xl outline-none focus:ring-2 focus:ring-blue-700/20 focus:border-blue-700 text-sm transition-all font-medium text-slate-700 shadow-sm" 
                   placeholder="Budi Santoso"
                 />
               </div>
@@ -80,7 +80,7 @@ export default function RegisterPage() {
                   name="email" 
                   type="email" 
                   required
-                  className="w-full bg-white border border-slate-200 px-4 py-2.5 pl-10 rounded-xl outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm transition-all font-medium text-slate-700 shadow-sm" 
+                  className="w-full bg-white border border-slate-200 px-4 py-2.5 pl-10 rounded-xl outline-none focus:ring-2 focus:ring-blue-700/20 focus:border-blue-700 text-sm transition-all font-medium text-slate-700 shadow-sm" 
                   placeholder="nama@email.com"
                 />
               </div>
@@ -96,7 +96,7 @@ export default function RegisterPage() {
                   name="password" 
                   type={showPassword ? "text" : "password"}
                   required
-                  className="w-full bg-white border border-slate-200 px-4 py-2.5 pl-10 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm transition-all font-medium text-slate-700 shadow-sm" 
+                  className="w-full bg-white border border-slate-200 px-4 py-2.5 pl-10 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-blue-700/20 focus:border-blue-700 text-sm transition-all font-medium text-slate-700 shadow-sm" 
                   placeholder="Minimal 6 karakter"
                 />
                 <button 
@@ -110,16 +110,16 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs lg:text-sm font-bold text-orange-600">Kode Undangan Sekolah</label>
+              <label className="text-xs lg:text-sm font-bold text-blue-800">Kode Undangan Sekolah</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-orange-400">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-blue-500">
                   <Key size={16} />
                 </div>
                 <input 
                   name="invite_code" 
                   type="text" 
                   required
-                  className="w-full bg-orange-50/50 border border-orange-200 px-4 py-2.5 pl-10 rounded-xl outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm transition-all font-medium text-slate-700 shadow-sm placeholder:text-orange-300" 
+                  className="w-full bg-blue-50/50 border border-blue-200 px-4 py-2.5 pl-10 rounded-xl outline-none focus:ring-2 focus:ring-blue-700/20 focus:border-blue-700 text-sm transition-all font-medium text-slate-700 shadow-sm placeholder:text-blue-400" 
                   placeholder="Minta kode ke guru BK"
                 />
               </div>
@@ -128,7 +128,7 @@ export default function RegisterPage() {
             <button 
               type="submit" 
               disabled={loading}
-              className="w-full bg-[#ff7a50] text-white py-2.5 lg:py-3 rounded-xl font-bold hover:bg-[#fa6a3d] hover:shadow-lg hover:shadow-orange-500/30 transition-all disabled:opacity-70 flex justify-center items-center gap-2 mt-4 text-sm lg:text-base"
+              className="w-full bg-[#0f4a8a] text-white py-2.5 lg:py-3 rounded-xl font-bold hover:bg-pink-500 hover:shadow-lg hover:shadow-pink-500/30 transition-all disabled:opacity-70 flex justify-center items-center gap-2 mt-4 text-sm lg:text-base"
             >
               {loading && <Loader2 size={16} className="animate-spin" />}
               {loading ? 'Mendaftar...' : 'Daftar Akun'}
@@ -137,27 +137,27 @@ export default function RegisterPage() {
           </form>
 
           <p className="mt-4 lg:mt-6 text-center text-xs lg:text-sm font-semibold text-slate-500">
-            Sudah punya akun? <Link href="/login" className="text-orange-500 hover:text-orange-600 ml-1">Masuk di sini <ArrowRight size={12} className="inline mb-0.5"/></Link>
+            Sudah punya akun? <Link href="/login" className="text-blue-700 hover:text-blue-800 ml-1">Masuk di sini <ArrowRight size={12} className="inline mb-0.5"/></Link>
           </p>
         </div>
       </div>
 
       {/* KANAN: Fitur KarirKu (50% layar) */}
-      <div className="w-full lg:w-1/2 min-h-[80dvh] lg:h-full bg-orange-50/30 text-slate-800 relative flex justify-center items-center lg:items-start py-16 lg:py-0 lg:pt-[8vh] px-6 lg:px-10 overflow-hidden">
+      <div className="w-full lg:w-1/2 min-h-[80dvh] lg:h-full bg-blue-50/30 text-slate-800 relative flex justify-center items-center lg:items-start py-16 lg:py-0 lg:pt-[8vh] px-6 lg:px-10 overflow-hidden">
         
         {/* Dekorasi Panel Kanan */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-100/60 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100/60 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute -bottom-20 -left-20 w-[30rem] h-[30rem] bg-rose-100/60 rounded-full blur-3xl pointer-events-none"></div>
         
         <div className="w-full max-w-sm lg:max-w-md relative z-10 w-full lg:pl-10">
-          <h2 className="text-2xl lg:text-3xl font-extrabold text-slate-900 mb-8 leading-tight">
-            Dengan akun KarirKu,<br className="hidden lg:block"/> kamu bisa: ✨
+          <h2 className="text-2xl lg:text-3xl font-extrabold text-slate-900 mb-8 leading-tight flex items-center gap-2">
+            Dengan akun KarirKu,<br className="hidden lg:block"/> kamu bisa: <Sparkles className="text-yellow-500" size={28} />
           </h2>
           
           <div className="space-y-6">
             {[
               { icon: <Target className="text-emerald-500" size={24} />, title: 'Rekomendasi Jurusan AI', text: 'Temukan jurusan kuliah yang paling akurat sesuai dengan kepribadianmu.', color: 'border-emerald-200 bg-emerald-50/50' },
-              { icon: <Gamepad2 className="text-orange-500" size={24} />, title: 'Tes Minat Bakat', text: 'Ikuti tes psikologi interaktif yang seru khusus untuk siswa SMA.', color: 'border-orange-200 bg-orange-50/50' },
+              { icon: <Gamepad2 className="text-blue-700" size={24} />, title: 'Tes Minat Bakat', text: 'Ikuti tes psikologi interaktif yang seru khusus untuk siswa SMA.', color: 'border-blue-200 bg-blue-50/50' },
               { icon: <FolderOpen className="text-amber-500" size={24} />, title: 'Simpan Portofolio', text: 'Rangkum semua sertifikat, nilai, dan hasil tes di satu tempat aman.', color: 'border-amber-200 bg-amber-50/50' },
               { icon: <Gift className="text-rose-500" size={24} />, title: '100% Gratis', text: 'Nikmati seluruh fitur premium kami tanpa dipungut biaya sepeserpun.', color: 'border-rose-200 bg-rose-50/50' },
             ].map((item, i) => (

@@ -48,7 +48,7 @@ export default function SuccessAnimation() {
         transition={{ delay: 0.5, type: "spring" }}
         className="absolute top-4 -right-8 md:-right-16 bg-white px-6 py-4 rounded-3xl shadow-xl rounded-bl-none border border-slate-100 z-20 hidden md:block"
       >
-        <p className="font-bold text-slate-700 whitespace-nowrap text-lg">Kamu pasti<br/>bisa! 💪</p>
+        <p className="font-bold text-slate-700 whitespace-nowrap text-lg flex items-center justify-center gap-2">Kamu pasti<br/>bisa! <ThumbsUp className="text-yellow-500" size={20}/></p>
       </motion.div>
     </div>
   )

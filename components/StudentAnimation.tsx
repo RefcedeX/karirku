@@ -10,7 +10,7 @@ export default function StudentAnimation() {
       <motion.div 
         animate={{ scale: [1, 1.05, 1], rotate: [0, 90, 0] }}
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-        className="absolute w-72 h-72 md:w-96 md:h-96 bg-gradient-to-tr from-orange-200 to-yellow-100 rounded-full blur-2xl opacity-60"
+        className="absolute w-72 h-72 md:w-96 md:h-96 bg-gradient-to-tr from-blue-200 to-yellow-100 rounded-full blur-2xl opacity-60"
       />
 
       {/* Elemen Melayang: Buku */}
@@ -55,7 +55,7 @@ export default function StudentAnimation() {
           </div>
           
           {/* Wajah */}
-          <div className="w-32 h-32 bg-orange-100 rounded-full border-4 border-white shadow-inner flex items-center justify-center relative overflow-hidden">
+          <div className="w-32 h-32 bg-blue-100 rounded-full border-4 border-white shadow-inner flex items-center justify-center relative overflow-hidden">
             {/* Mata */}
             <div className="absolute top-12 left-8 w-3 h-4 bg-slate-800 rounded-full" />
             <div className="absolute top-12 right-8 w-3 h-4 bg-slate-800 rounded-full" />
@@ -69,7 +69,7 @@ export default function StudentAnimation() {
           {/* Badan (Jubah) */}
           <div className="w-48 h-32 bg-slate-800 rounded-t-[3rem] mt-2 border-4 border-white shadow-2xl relative overflow-hidden flex justify-center">
             {/* Kerah */}
-            <div className="w-16 h-16 bg-orange-100 rotate-45 -mt-8" />
+            <div className="w-16 h-16 bg-blue-100 rotate-45 -mt-8" />
             <div className="absolute top-8 w-1 h-24 bg-slate-700" />
           </div>
         </motion.div>

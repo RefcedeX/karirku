@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { scores, rawAnswers } = await req.json()
+    const { scores, rawAnswers, duration } = await req.json()
 
     // Create Quiz Attempt First
     const { data: attempt, error: attemptError } = await supabase
@@ -105,6 +105,12 @@ export async function POST(req: Request) {
         aiResultData = getFallbackResult(scores)
         isFallback = true
       }
+    }
+
+    // Append test duration
+    aiResultData = {
+      ...aiResultData,
+      test_duration: duration || 0
     }
 
     // Insert to Recommendation Results

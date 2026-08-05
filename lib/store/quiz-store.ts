@@ -14,6 +14,9 @@ export interface QuizState {
   answers: Record<number, number> // questionId -> score (1-5)
   currentIndex: number
   isFinished: boolean
+  isStarted: boolean
+  startTime: number | null
+  startQuiz: () => void
   setQuestions: (questions: Question[]) => void
   answerQuestion: (questionId: number, score: number) => void
   nextQuestion: () => void
@@ -29,6 +32,10 @@ export const useQuizStore = create<QuizState>()(
       answers: {},
       currentIndex: 0,
       isFinished: false,
+      isStarted: false,
+      startTime: null,
+      
+      startQuiz: () => set({ isStarted: true, startTime: Date.now() }),
       
       setQuestions: (questions) => set({ questions }),
       
@@ -52,10 +59,13 @@ export const useQuizStore = create<QuizState>()(
       
       finishQuiz: () => set({ isFinished: true }),
       
-      resetQuiz: () => set({
-        answers: {},
-        currentIndex: 0,
-        isFinished: false
+      resetQuiz: () => set({ 
+        questions: [], 
+        answers: {}, 
+        currentIndex: 0, 
+        isFinished: false,
+        isStarted: false,
+        startTime: null
       })
     }),
     {

@@ -1,23 +1,21 @@
 'use client'
 
-import { useSidebarStore } from '@/lib/store/sidebar-store'
 import { 
-  Menu, ArrowRight, Target, BrainCircuit, 
+  ArrowRight, Target, BrainCircuit, 
   FolderOpen, LineChart, ClipboardCheck, 
-  Sparkles, GraduationCap, FileText, CheckCircle2 
+  Sparkles, FileText, Heart, ThumbsUp
 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { AuthButton } from '@/components/ui/AuthButton'
+import { PublicHeader } from '@/components/layout/PublicHeader'
 import happyStudentAnimation from '@/public/happy_student.json'
 import finishingStudiesAnimation from '@/public/finishing_studies.json'
 
 const Player = dynamic(() => import('@lottiefiles/react-lottie-player').then(mod => mod.Player), { ssr: false })
 
-export default function Home() {
-  const openSidebar = useSidebarStore((state) => state.open)
+export default function LandingPage() {
 
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
@@ -32,33 +30,12 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-[#fffcf5] text-slate-800 overflow-hidden font-sans">
       
       {/* Header */}
-      <header className="flex items-center justify-between p-6 w-full max-w-7xl mx-auto z-10 relative">
-        <div className="flex items-center gap-4">
-          <button 
-            onClick={openSidebar}
-            className="p-2 hover:bg-orange-100 rounded-full transition-colors text-orange-600"
-          >
-            <Menu size={24} />
-          </button>
-          <div className="font-bold text-2xl tracking-tight text-orange-600 flex items-center gap-1">
-            KarirKu<span className="text-yellow-400">✧</span>
-          </div>
-        </div>
-
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-          <Link href="/" className="text-orange-500 font-semibold border-b-2 border-orange-500 pb-1">Beranda</Link>
-          <Link href="/statistik" className="hover:text-orange-500 transition-colors pb-1">Statistik</Link>
-          <Link href="/faq" className="hover:text-orange-500 transition-colors pb-1">Tentang & FAQ</Link>
-        </nav>
-
-        <AuthButton />
-      </header>
+      <PublicHeader activePage="home" />
 
       {/* Hero Section */}
       <section className="relative w-full max-w-7xl mx-auto px-6 pt-12 pb-24 flex flex-col lg:flex-row items-center gap-12">
         {/* Background Decorative Blobs */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-200/30 rounded-full blur-3xl -z-10"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl -z-10"></div>
         <div className="absolute bottom-0 left-10 w-72 h-72 bg-purple-200/40 rounded-full blur-3xl -z-10"></div>
 
         {/* Left Content */}
@@ -68,7 +45,7 @@ export default function Home() {
           animate="visible"
           variants={stagger}
         >
-          <motion.div variants={fadeIn} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-100 text-orange-700 font-semibold text-sm mb-6">
+          <motion.div variants={fadeIn} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100 text-blue-900 font-semibold text-sm mb-6">
             SMAN 1 BAROS
           </motion.div>
           
@@ -83,7 +60,7 @@ export default function Home() {
           <motion.div variants={fadeIn} className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
             <Link 
               href="/dashboard"
-              className="group flex items-center justify-center gap-2 bg-gradient-to-r from-orange-400 to-orange-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg hover:shadow-orange-500/30 transition-all hover:-translate-y-1 w-full sm:w-auto"
+              className="group flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg hover:shadow-blue-700/30 transition-all hover:-translate-y-1 w-full sm:w-auto"
             >
               Mulai Tes Sekarang
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
@@ -111,7 +88,7 @@ export default function Home() {
               transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
               className="absolute -right-4 md:-right-8 top-1/3 bg-white px-6 py-4 rounded-3xl shadow-xl rounded-bl-none z-20 hidden md:block"
             >
-              <p className="font-bold text-sm text-slate-700">Masa depan cerah dimulai<br/>dari pilihan yang tepat! ✨</p>
+              <p className="font-bold text-sm text-slate-700 flex items-center justify-center gap-2">Masa depan cerah dimulai<br/>dari pilihan yang tepat! <Sparkles className="text-yellow-500" size={16}/></p>
             </motion.div>
           </div>
         </motion.div>
@@ -181,7 +158,7 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 flex items-center justify-center gap-2">
             Gimana Cara Kerjanya? <Sparkles className="text-yellow-400" />
           </h2>
-          <svg className="w-48 h-4 mx-auto mt-2 text-orange-300" viewBox="0 0 200 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="w-48 h-4 mx-auto mt-2 text-blue-400" viewBox="0 0 200 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M5 10C50 -5 150 25 195 10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
           </svg>
         </motion.div>
@@ -257,23 +234,23 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-[#ebe7ff] to-[#f3f0ff] rounded-[3rem] p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden"
+          className="bg-gradient-to-r from-pink-50 to-pink-100 rounded-[3rem] p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden"
         >
           {/* Decorative */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/40 rounded-full blur-3xl -z-0"></div>
           
           <div className="relative z-10 flex-1 text-center md:text-left">
             <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 leading-tight">
-              Masa Depanmu, <br/>Pilihanmu! <span className="text-red-400">♥</span>
+              Masa Depanmu, <br/>Pilihanmu! <span className="inline-block align-middle ml-2 text-pink-500"><Heart className="fill-current" size={48} /></span>
             </h2>
             <p className="text-lg text-slate-600 mb-8 max-w-md mx-auto md:mx-0">
               Jangan bingung lagi menentukan arah karier dan studi lanjut, KarirKu siap membantumu menemukan yang paling cocok!
             </p>
             <Link 
               href="/dashboard"
-              className="inline-flex items-center justify-center gap-2 bg-indigo-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-indigo-600 hover:shadow-lg hover:shadow-indigo-500/30 transition-all hover:-translate-y-1"
+              className="inline-flex items-center justify-center gap-2 bg-pink-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-pink-600 hover:shadow-lg hover:shadow-pink-500/30 transition-all hover:-translate-y-1"
             >
-              Yuk, Mulai Sekarang! ✨ <ArrowRight size={20} />
+              Yuk, Mulai Sekarang! <Sparkles size={20} /> <ArrowRight size={20} />
             </Link>
           </div>
 
@@ -295,7 +272,7 @@ export default function Home() {
                   transition={{ delay: 0.5 }}
                   className="absolute top-4 -right-8 md:-right-16 bg-white px-6 py-3 rounded-2xl shadow-xl rounded-bl-none border border-slate-100 hidden md:block z-20"
                 >
-                  <p className="font-bold text-slate-700 whitespace-nowrap">Kamu pasti<br/>bisa! 💪</p>
+                  <p className="font-bold text-slate-700 whitespace-nowrap flex items-center justify-center gap-2">Kamu pasti<br/>bisa! <ThumbsUp className="text-yellow-500" size={20}/></p>
                 </motion.div>
               </div>
             </div>

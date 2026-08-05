@@ -4,6 +4,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@keyframes expand-width {
+  from { width: 0; }
+  to { width: var(--target-width, 100%); }
+}
+
+.animate-expand-width {
+  animation: expand-width 1s ease-out forwards;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -55,20 +64,19 @@
   --card-foreground: #09090b;
   --popover: #ffffff;
   --popover-foreground: #09090b;
-  --primary: #f97316; /* orange-500 */
-  --primary-foreground: #fafafa;
-  --secondary: #f4f4f5;
-  --secondary-foreground: #18181b;
+  --primary: #0f4a8a; /* Biru Tut Wuri Handayani / SMA */
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f5; /* Zinc-100 */
+  --secondary-foreground: #09090b; /* Zinc-950 */
   --muted: #f4f4f5;
   --muted-foreground: #71717a;
-  --accent: #f4f4f5;
-  --accent-foreground: #18181b;
+  --accent: #f0f9ff; /* Sky-50 (aksen biru sangat muda) */
+  --accent-foreground: #0c4a6e; /* Sky-900 */
   --destructive: #ef4444;
   --border: #e4e4e7;
   --input: #e4e4e7;
-  --ring: #f97316;
+  --ring: #0f4a8a; --chart-1: #f97316;
   
-  --chart-1: #f97316;
   --chart-2: #3b82f6;
   --chart-3: #10b981;
   --chart-4: #8b5cf6;
@@ -93,18 +101,18 @@
   --card-foreground: #fafafa;
   --popover: #09090b;
   --popover-foreground: #fafafa;
-  --primary: #f97316;
-  --primary-foreground: #fafafa;
+  --primary: #0f4a8a;
+  --primary-foreground: #ffffff;
   --secondary: #27272a;
   --secondary-foreground: #fafafa;
   --muted: #27272a;
   --muted-foreground: #a1a1aa;
-  --accent: #27272a;
-  --accent-foreground: #fafafa;
+  --accent: #082f49; /* Sky-950 */
+  --accent-foreground: #f0f9ff;
   --destructive: #7f1d1d;
   --border: #27272a;
   --input: #27272a;
-  --ring: #f97316;
+  --ring: #0f4a8a;
 
   --chart-1: #f97316;
   --chart-2: #3b82f6;
