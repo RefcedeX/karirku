@@ -11,6 +11,8 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { AuthButton } from '@/components/ui/AuthButton'
+import happyStudentAnimation from '@/public/happy_student.json'
+import finishingStudiesAnimation from '@/public/finishing_studies.json'
 
 const Player = dynamic(() => import('@lottiefiles/react-lottie-player').then(mod => mod.Player), { ssr: false })
 
@@ -100,7 +102,7 @@ export default function Home() {
             <Player
               autoplay
               loop
-              src="/happy_student.json"
+              src={happyStudentAnimation}
               style={{ height: '100%', width: '100%' }}
               background="transparent"
             />
@@ -281,7 +283,7 @@ export default function Home() {
                 <Player
                   autoplay
                   loop
-                  src="/finishing_studies.json"
+                  src={finishingStudiesAnimation}
                   style={{ height: '100%', width: '100%' }}
                   background="transparent"
                 />
