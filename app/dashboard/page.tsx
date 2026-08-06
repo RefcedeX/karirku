@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowRight, Download, Calendar, Clock, FileText, Hexagon, Briefcase, HeartPulse, Palette, GraduationCap, Users, Target, CheckCircle2, Lightbulb } from 'lucide-react'
+import { ArrowRight, Download, Calendar, Clock, FileText, Hexagon, Briefcase, HeartPulse, Palette, GraduationCap, Users, Target, CheckCircle2, Lightbulb, Map, Flag } from 'lucide-react'
 import { ProfileCard } from '@/components/profile/ProfileCard'
 import { DownloadPdfButton } from '@/components/ui/DownloadPdfButton'
 import { MobileHeader } from '@/components/layout/MobileHeader'
@@ -219,6 +219,44 @@ export default async function DashboardPage() {
                 </div>
               </div>
             </div>
+
+            {/* Peta Jalan Karier (Roadmap) */}
+            {latestResult.ai_recommendation?.roadmap && latestResult.ai_recommendation.roadmap.length > 0 && (
+              <div className="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm print:p-4 print:break-inside-avoid animate-in fade-in slide-in-from-bottom-4 duration-500 delay-600 fill-mode-both">
+                <div className="flex items-center gap-3 mb-8 print:mb-4">
+                  <div className="p-2 bg-blue-50 text-blue-600 rounded-xl"><Map size={24} /></div>
+                  <div>
+                    <h3 className="font-bold text-slate-800 text-lg">Peta Jalan Karier (Roadmap)</h3>
+                    <p className="text-sm text-slate-500">Langkah demi langkah menuju profesi impianmu</p>
+                  </div>
+                </div>
+
+                <div className="relative pl-6 md:pl-8 space-y-8 print:space-y-4 before:content-[''] before:absolute before:left-[11px] md:before:left-[15px] before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200">
+                  {latestResult.ai_recommendation.roadmap.map((step: any, idx: number) => (
+                    <div key={idx} className="relative animate-in fade-in slide-in-from-right-4 fill-mode-both" style={{ animationDelay: `${idx * 150 + 800}ms` }}>
+                      {/* Timeline Dot */}
+                      <div className="absolute -left-6 md:-left-8 w-6 h-6 bg-blue-500 rounded-full border-4 border-white shadow-sm flex items-center justify-center -translate-x-1/2">
+                        {idx === latestResult.ai_recommendation.roadmap.length - 1 ? (
+                          <Flag size={10} className="text-white" />
+                        ) : (
+                          <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                        )}
+                      </div>
+                      
+                      {/* Content */}
+                      <div className="bg-slate-50/80 p-5 print:p-3 print:bg-white rounded-2xl border border-slate-100/50 hover:border-blue-200 hover:bg-blue-50/30 transition-all">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                          <span className="text-xs font-bold px-2.5 py-1 bg-blue-100 text-blue-700 rounded-lg w-fit uppercase tracking-wider">{step.step}</span>
+                          <span className="text-xs font-semibold text-slate-400 flex items-center gap-1.5"><Clock size={12} /> {step.timeline}</span>
+                        </div>
+                        <h4 className="text-base font-bold text-slate-800 mb-1.5">{step.title}</h4>
+                        <p className="text-sm text-slate-600 leading-relaxed">{step.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Banner Bawah: Interpretasi Guru BK */}
             <div className="bg-gradient-to-r from-[#f0ebf8] to-[#f8f5fc] rounded-3xl p-6 md:p-8 border border-purple-100 flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative shadow-sm print:p-4 print:break-inside-avoid animate-in fade-in slide-in-from-bottom-4 duration-500 delay-700 fill-mode-both">

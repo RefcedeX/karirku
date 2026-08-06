@@ -73,6 +73,7 @@ export async function POST(req: Request) {
             5. Berikan rekomendasi mata pelajaran pilihan lintas minat di SMA (Kurikulum Merdeka).
             6. Berikan Tips Pengembangan Diri yang sangat taktis mengatasi 'titik buta' kepribadiannya.
             7. Hitung tingkat kecocokan (0-100) siswa ini dengan 6 Bidang Industri besar berdasarkan pemetaan RIASEC.
+            8. Buat Roadmap Pendidikan & Karier 4 langkah (dari SMA hingga dunia kerja). HARUS SANGAT SPESIFIK DAN BISA DILAKUKAN (ACTIONABLE). Sebutkan nama pelatihan spesifik (misal: Prakerja, Dicoding, Coursera, dll), nama sertifikasi, atau nama kegiatan nyata yang relevan di Indonesia, jangan sekadar saran umum.
 
             KEMBALIKAN OUTPUT HARUS DALAM FORMAT JSON BERIKUT (TANPA MARKDOWN, HANYA JSON MURNI):
             {
@@ -83,7 +84,21 @@ export async function POST(req: Request) {
               "recommended_careers": [{ "title": "...", "match_score": 90, "reason": "..." }],
               "recommended_subjects": ["...", "..."],
               "development_tips": ["...", "..."],
-              "industry_scores": { "teknologi": 80, "bisnis": 70, "kesehatan": 60, "seni": 50, "pendidikan": 40, "sosial": 30 }
+              "industry_scores": { "teknologi": 80, "bisnis": 70, "kesehatan": 60, "seni": 50, "pendidikan": 40, "sosial": 30 },
+              "roadmap": [
+                {
+                  "step": "Fase SMA / Persiapan Kuliah",
+                  "title": "...",
+                  "description": "...",
+                  "timeline": "Sekarang - Lulus SMA"
+                },
+                {
+                  "step": "Fase Kuliah / Pelatihan",
+                  "title": "...",
+                  "description": "...",
+                  "timeline": "Tahun 1-4 Kuliah"
+                }
+              ]
             }
           `,
         })
