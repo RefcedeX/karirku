@@ -2,7 +2,7 @@
 
 import { useSidebarStore } from '@/lib/store/sidebar-store'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, LayoutDashboard, Brain, MessageSquare, FileText, Home, PieChart, HelpCircle, Target, LogOut, GraduationCap } from 'lucide-react'
+import { X, LayoutDashboard, Brain, MessageSquare, FileText, Home, PieChart, HelpCircle, Target, LogOut } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -77,10 +77,6 @@ export function Sidebar() {
               <Link href="/cv-builder" onClick={close} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 transition-colors text-white/80 hover:text-white">
                 <FileText size={20} />
                 <span>Buat CV</span>
-              </Link>
-              <Link href="/direktori" onClick={close} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/10 transition-colors text-white/80 hover:text-white">
-                <GraduationCap size={20} />
-                <span>Direktori Kampus</span>
               </Link>
             </nav>
             
